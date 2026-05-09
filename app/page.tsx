@@ -4,6 +4,7 @@ import { BackgroundMedia } from "@/components/BackgroundMedia";
 import { SpotifyWidget } from "@/components/SpotifyWidget";
 import { ViewCounter } from "@/components/ViewCounter";
 import { DiscordStatus } from "@/components/DiscordStatus";
+import { DiscordActivities } from "@/components/DiscordActivities";
 
 export default function Home() {
   return (
@@ -47,23 +48,18 @@ export default function Home() {
           </div>
 
           {/* User Info */}
-          <div className="mt-4 bg-zinc-900/50 p-4 rounded-xl border border-zinc-800/50">
+          <div className="px-6">
             <h1 className="text-xl font-bold text-white">{config.name}</h1>
-            <div className="w-full h-[1px] bg-zinc-800 my-4" />
             
-            <div className="space-y-4">
-              <div>
-                <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">About Me</h2>
-                <p className="text-sm text-zinc-300 leading-relaxed">
-                  Welcome to my page.
-                </p>
-              </div>
+            {/* Discord Activities */}
+            <div className="mt-2">
+              <DiscordActivities />
+            </div>
 
-              {/* Spotify Widget */}
-              <div>
-                <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Listening to Spotify</h2>
-                <SpotifyWidget />
-              </div>
+            {/* Spotify Widget */}
+            <div className="mt-2">
+              <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Listening to Spotify</h2>
+              <SpotifyWidget />
             </div>
           </div>
 
