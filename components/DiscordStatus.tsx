@@ -12,13 +12,6 @@ interface LanyardResponse {
   success: boolean;
 }
 
-const statusColors = {
-  online: "bg-green-500",
-  idle: "bg-yellow-500",
-  dnd: "bg-red-500",
-  offline: "bg-gray-500",
-};
-
 export function DiscordStatus() {
   const [status, setStatus] = useState<Status>(config.status);
 
@@ -38,15 +31,41 @@ export function DiscordStatus() {
     };
 
     fetchStatus();
-    const interval = setInterval(fetchStatus, 10000);
+    const interval = setInterval(fetchStatus, 5000);
     return () => clearInterval(interval);
   }, []);
 
-  const statusColor = statusColors[status] || statusColors.offline;
+  const renderStatusIcon = () => {
+    switch (status) {
+      case "online":
+        return (
+          <div className="w-full h-full bg-[#23a55a] rounded-full" />
+        );
+      case "idle":
+        return (
+          <div className="w-full h-full relative">
+            <div className="w-full h-full bg-[#f0b232] rounded-full" />
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#0F0F10] rounded-full" />
+          </div>
+        );
+      case "dnd":
+        return (
+          <div className="w-full h-full bg-[#f23f43] rounded-full flex items-center justify-center">
+            <div className="w-3 h-1 bg-[#0F0F10] rounded-full" />
+          </div>
+        );
+      case "offline":
+        return (
+          <div className="w-full h-full rounded-full border-[5px] border-[#80848e] bg-transparent" />
+        );
+      default:
+        return <div className="w-full h-full bg-gray-500 rounded-full" />;
+    }
+  };
 
   return (
-    <div
-      className={`absolute bottom-1 right-1 w-6 h-6 rounded-full border-4 border-[#0F0F10] ${statusColor}`}
-    />
+    <div className="absolute bottom-1 right-1 w-6 h-6 rounded-full border-[4px] border-[#0F0F10] bg-[#0F0F10] overflow-hidden">
+      {renderStatusIcon()}
+    </div>
   );
 }

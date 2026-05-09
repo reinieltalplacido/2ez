@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { config } from "@/config";
 
 interface Activity {
@@ -34,6 +35,25 @@ const activityTypes: Record<number, string> = {
   5: "Competing",
 };
 
+const getActivityImage = (activity: Activity) => {
+  if (activity.assets?.large_image) {
+    if (activity.assets.large_image.startsWith("mp:external/")) {
+      return `https://media.discordapp.net/external/${activity.assets.large_image.replace(
+        "mp:external/",
+        ""
+      )}`;
+    }
+    return `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.png`;
+  }
+
+  // Fallback for games like Valorant that use application icons instead of rich presence assets
+  if (activity.application_id) {
+    return `https://dcdn.dstn.to/app-icons/${activity.application_id}`;
+  }
+
+  return null;
+};
+
 export function DiscordActivities() {
   const [activities, setActivities] = useState<Activity[]>([]);
 
@@ -57,7 +77,7 @@ export function DiscordActivities() {
     };
 
     fetchActivities();
-    const interval = setInterval(fetchActivities, 10000);
+    const interval = setInterval(fetchActivities, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -65,13 +85,24 @@ export function DiscordActivities() {
 
   return (
     <div className="space-y-2">
+      <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Playing</h2>
       {activities.map((activity, index) => (
         <div
           key={index}
           className="flex items-center gap-3 bg-zinc-900/80 p-3 rounded-xl border border-zinc-800"
         >
-          <div className="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center">
-            <span className="text-zinc-400 text-lg">🎮</span>
+          <div className="relative w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center overflow-hidden">
+            {getActivityImage(activity) ? (
+              <Image
+                src={getActivityImage(activity)!}
+                alt={activity.name}
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            ) : (
+              <span className="text-zinc-400 text-lg">🎮</span>
+            )}
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-bold text-zinc-400 uppercase">
