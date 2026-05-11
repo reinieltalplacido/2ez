@@ -54,18 +54,20 @@ export const config = {
     image: "/acess.png",
   },
   music: {
-    src: "/music.mp3",        
+    src: "/Ben&Ben - Lifetime (Reimagined) (Lyrics).mp3",
+    title: "Lifetime (Reimagined)",
+    artist: "Ben&Ben",
     volume: 0.3,              
     autoplay: true,
   },
   
  
   links: [
+    { title: "GitHub", subtitle: "My Code", url: "https://github.com/reinieltalplacido", iconName: "Github" },
+    { title: "Portfolio", subtitle: "My Work", url: "https://reiniel.vercel.app", iconName: "Briefcase" },
     { title: "TikTok", subtitle: "TikTok Channel", url: "https://www.tiktok.com/@2ezdota", iconName: "Tiktok" },
     { title: "YouTube", subtitle: "YouTube Channel", url: "https://www.youtube.com/@Oreoo-f5g", iconName: "Youtube" },
     { title: "Facebook", subtitle: "Facebook Page", url: "https://www.facebook.com/profile.php?id=61563096756693", iconName: "Facebook" },
-    { title: "GitHub", subtitle: "My Code", url: "https://github.com/reinieltalplacido", iconName: "Github" },
-    { title: "Portfolio", subtitle: "My Work", url: "https://reiniel.vercel.app", iconName: "Briefcase" },
   ] as LinkConfig[]
 };
 

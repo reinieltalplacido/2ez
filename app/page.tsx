@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { config, IconMap } from "@/config";
 import { BackgroundMedia } from "@/components/BackgroundMedia";
@@ -14,23 +16,18 @@ export default function Home() {
       {/* Main Profile Card */}
       <div className="w-full max-w-[440px] bg-black/60 backdrop-blur-xl rounded-2xl overflow-hidden border border-zinc-800/50 shadow-2xl animate-in fade-in zoom-in duration-500">
         
-        {/* Banner */}
-        <div className="h-32 w-full bg-transparent relative">
-           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40" />
-        </div>
-
-        {/* Profile Content */}
-        <div className="px-6 pt-16 pb-6 relative">
+        {/* Profile Header (Avatar + Info) */}
+        <div className="px-6 pt-8 pb-6 relative">
           
-          {/* Avatar & Status */}
-          <div className="absolute -top-14 left-6">
-            <div className="relative">
-              <div className="w-24 h-24 rounded-full border-[6px] border-[#0F0F10] overflow-hidden bg-zinc-800">
+          <div className="flex items-center gap-5 mb-6">
+            {/* Avatar Section */}
+            <div className="relative flex-shrink-0">
+              <div className="w-20 h-20 rounded-full border-[4px] border-[#0F0F10] overflow-hidden bg-zinc-800 shadow-xl">
                 <Image
                   src={config.avatar}
                   alt={config.name}
-                  width={96}
-                  height={96}
+                  width={80}
+                  height={80}
                   className="w-full h-full object-cover"
                   priority
                 />
@@ -38,26 +35,25 @@ export default function Home() {
               {/* Status Badge */}
               <DiscordStatus />
             </div>
+
+            {/* User Info Section */}
+            <div className="flex-1 min-w-0">
+              <h1 className="text-2xl font-bold text-white tracking-tight">{config.name}</h1>
+              {/* Status/Activity can go here if needed, or keep them below */}
+              <div className="mt-1 flex items-center gap-2">
+                <DiscordActivities />
+              </div>
+            </div>
           </div>
 
-          {/* User Info */}
-          <div>
-            <h1 className="text-xl font-bold text-white">{config.name}</h1>
-            
-            {/* Discord Activities */}
-            <div className="mt-2">
-              <DiscordActivities />
-            </div>
-
-            {/* Spotify Widget */}
-            <div className="mt-2">
-              <SpotifyWidget />
-            </div>
+          {/* Spotify Widget & Other Content */}
+          <div className="space-y-4">
+            <SpotifyWidget />
           </div>
 
           {/* Links Section */}
-          <div className="mt-6">
-             <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3 px-1">Links</h2>
+          <div className="mt-8">
+             <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-4 px-1">Links</h2>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {config.links.map((link, index) => {
                   const Icon = IconMap[link.iconName];
