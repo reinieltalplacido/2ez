@@ -15,13 +15,12 @@ export default function Home() {
       <div className="w-full max-w-[440px] bg-black/60 backdrop-blur-xl rounded-2xl overflow-hidden border border-zinc-800/50 shadow-2xl animate-in fade-in zoom-in duration-500">
         
         {/* Banner */}
-        <div className="h-32 w-full bg-zinc-800 relative">
-           {/* You can add an optional banner image in config later, for now we use a solid color */}
-           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20" />
+        <div className="h-32 w-full bg-transparent relative">
+           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40" />
         </div>
 
         {/* Profile Content */}
-        <div className="px-6 pb-6 relative">
+        <div className="px-6 pt-16 pb-6 relative">
           
           {/* Avatar & Status */}
           <div className="absolute -top-14 left-6">
@@ -41,14 +40,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Action Buttons (Top Right) */}
-          <div className="flex justify-end pt-4 pb-2">
-             {/* Decorative standard Discord buttons could go here */}
-             <div className="h-9" /> 
-          </div>
-
           {/* User Info */}
-          <div className="px-6">
+          <div>
             <h1 className="text-xl font-bold text-white">{config.name}</h1>
             
             {/* Discord Activities */}
@@ -58,7 +51,6 @@ export default function Home() {
 
             {/* Spotify Widget */}
             <div className="mt-2">
-              <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Listening to Spotify</h2>
               <SpotifyWidget />
             </div>
           </div>

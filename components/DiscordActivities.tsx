@@ -14,6 +14,10 @@ interface Activity {
     large_image?: string;
     small_image?: string;
   };
+  timestamps?: {
+    start: number;
+    end?: number;
+  };
 }
 
 interface LanyardData {
@@ -52,6 +56,36 @@ const getActivityImage = (activity: Activity) => {
   }
 
   return null;
+};
+
+const TimeElapsed = ({ start }: { start: number }) => {
+  const [elapsed, setElapsed] = useState("");
+
+  useEffect(() => {
+    const update = () => {
+      const now = Date.now();
+      const diff = now - start;
+      const seconds = Math.floor(diff / 1000);
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      const hours = Math.floor(mins / 60);
+
+      const timeStr =
+        hours > 0
+          ? `${hours}:${(mins % 60).toString().padStart(2, "0")}:${secs
+              .toString()
+              .padStart(2, "0")}`
+          : `${mins}:${secs.toString().padStart(2, "0")}`;
+
+      setElapsed(timeStr);
+    };
+
+    update();
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
+  }, [start]);
+
+  return <span>{elapsed} elapsed</span>;
 };
 
 export function DiscordActivities() {
@@ -116,6 +150,13 @@ export function DiscordActivities() {
             )}
             {activity.state && (
               <p className="text-xs text-zinc-500 truncate">{activity.state}</p>
+            )}
+            {activity.timestamps?.start && (
+              <div className="flex items-center gap-1 mt-1">
+                <span className="text-xs text-zinc-500">
+                  <TimeElapsed start={activity.timestamps.start} />
+                </span>
+              </div>
             )}
           </div>
         </div>

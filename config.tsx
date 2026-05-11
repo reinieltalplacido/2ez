@@ -51,8 +51,7 @@ export const config = {
   
  
   background: {
-    video: "/bg.mp4",         
-    fallbackImage: "/bg.jpg", 
+    image: "/acess.png",
   },
   music: {
     src: "/music.mp3",        

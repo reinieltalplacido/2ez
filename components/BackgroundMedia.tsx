@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import { config } from "@/config";
 import { Volume2, VolumeX } from "lucide-react";
 
@@ -38,10 +39,12 @@ export function BackgroundMedia() {
     <>
       {/* Background Image */}
       <div className="fixed inset-0 z-[-1] bg-zinc-950">
-        <img
-          src="/acess.png"
+        <Image
+          src={config.background.image}
           alt="Background"
-          className="absolute inset-0 w-full h-full object-cover opacity-60"
+          fill
+          priority
+          className="object-cover blur-[2px] brightness-90"
         />
       </div>
 
