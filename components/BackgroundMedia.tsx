@@ -7,34 +7,51 @@ import { Volume2, VolumeX, Volume1, Music } from "lucide-react";
 
 export function BackgroundMedia() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(config.music.volume);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [volume, setVolume] = useState(0.15);
+  const [musicData, setMusicData] = useState<{ src: string; title: string; artist: string; volume: number; autoplay: boolean } | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const hasSetStartTime = useRef(false);
   
+  useEffect(() => {
+    fetch("/api/music")
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          console.error("Music API Error:", data.error);
+          return;
+        }
+        setMusicData(data);
+        setVolume(data.volume);
+      })
+      .catch(err => console.error("Failed to fetch music data:", err));
+  }, []);
+
   // Initial mount logic
   useEffect(() => {
-    const savedVolume = localStorage.getItem("music-volume");
-    if (savedVolume !== null) {
-      setVolume(parseFloat(savedVolume));
-    }
-
+    if (!musicData) return;
     const audio = audioRef.current;
-    if (audio) {
-      audio.currentTime = 95;
+    if (audio && !hasSetStartTime.current) {
+      audio.currentTime = 0;
       hasSetStartTime.current = true;
       
       // Attempt autoplay
-      audio.play().then(() => {
-        setIsPlaying(true);
-      }).catch(() => {
-        console.log("Autoplay blocked. Waiting for user interaction.");
-      });
+      if (musicData.autoplay) {
+        audio.play().then(() => {
+          setIsPlaying(true);
+          setIsExpanded(true);
+        }).catch(() => {
+          console.log("Autoplay blocked. Waiting for user interaction.");
+        });
+      }
     }
+  }, [musicData]);
 
+  useEffect(() => {
     // Global listener for first interaction
     const handleFirstClick = () => {
       const audio = audioRef.current;
-      if (audio) {
+      if (audio && !isPlaying) {
         // If it hasn't started yet, play it
         audio.play().then(() => {
           setIsPlaying(true);
@@ -45,7 +62,7 @@ export function BackgroundMedia() {
 
     window.addEventListener("click", handleFirstClick);
     return () => window.removeEventListener("click", handleFirstClick);
-  }, []); // Run ONLY once on mount
+  }, [isPlaying]);
 
   // Playback control logic
   useEffect(() => {
@@ -92,13 +109,17 @@ export function BackgroundMedia() {
   }, [volume, isPlaying]);
 
   const toggleMusic = () => {
-    setIsPlaying(prev => !prev);
+    if (!isPlaying) {
+      setIsPlaying(true);
+      setIsExpanded(true);
+    } else {
+      setIsExpanded(prev => !prev);
+    }
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
-    localStorage.setItem("music-volume", newVolume.toString());
   };
 
   const getVolumeIcon = () => {
@@ -116,23 +137,25 @@ export function BackgroundMedia() {
           alt="Background"
           fill
           priority
-          className="object-cover blur-[2px] brightness-90"
+          className="object-cover brightness-90"
         />
       </div>
 
       {/* Hidden Audio */}
-      <audio
-        ref={audioRef}
-        src={config.music.src}
-        loop
-        preload="auto"
-      />
+      {musicData && (
+        <audio
+          ref={audioRef}
+          src={musicData.src}
+          loop
+          preload="auto"
+        />
+      )}
 
       {/* Floating Music Controls */}
       <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
         
         {/* Now Playing Info & Slider Container */}
-        <div className={`flex items-center gap-4 bg-zinc-900/90 backdrop-blur-xl px-4 py-2.5 rounded-2xl border border-zinc-800/50 shadow-2xl transition-all duration-500 origin-right ${isPlaying ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10 pointer-events-none'}`}>
+        <div className={`flex items-center gap-4 bg-zinc-900/90 backdrop-blur-xl px-4 py-2.5 rounded-2xl border border-zinc-800/50 shadow-2xl transition-all duration-500 origin-right ${isExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10 pointer-events-none'}`}>
           
           <div className="flex items-end gap-[2px] h-3 w-4">
             <div className={`w-1 bg-white rounded-full transition-all duration-300 ${isPlaying ? 'animate-[music-bar_0.6s_ease-in-out_infinite]' : 'h-1'}`} style={{ animationDelay: '0s' }} />
@@ -142,10 +165,10 @@ export function BackgroundMedia() {
 
           <div className="flex flex-col min-w-[120px]">
             <span className="text-[11px] font-bold text-white leading-tight truncate max-w-[150px]">
-              {config.music.title}
+              {musicData?.title || "Loading..."}
             </span>
             <span className="text-[9px] font-medium text-zinc-400 leading-tight">
-              {config.music.artist}
+              {musicData?.artist || ""}
             </span>
           </div>
 

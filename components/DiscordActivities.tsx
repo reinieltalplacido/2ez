@@ -58,6 +58,19 @@ const getActivityImage = (activity: Activity) => {
   return null;
 };
 
+const getActivitySmallImage = (activity: Activity) => {
+  if (activity.assets?.small_image) {
+    if (activity.assets.small_image.startsWith("mp:external/")) {
+      return `https://media.discordapp.net/external/${activity.assets.small_image.replace(
+        "mp:external/",
+        ""
+      )}`;
+    }
+    return `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.png`;
+  }
+  return null;
+};
+
 const TimeElapsed = ({ start }: { start: number }) => {
   const [elapsed, setElapsed] = useState("");
 
@@ -123,19 +136,34 @@ export function DiscordActivities() {
       {activities.map((activity, index) => (
         <div
           key={index}
-          className="flex items-center gap-3 bg-zinc-900/80 p-3 rounded-xl border border-zinc-800"
+          className="flex items-center gap-4 bg-zinc-900/80 p-4 rounded-xl border border-zinc-800"
         >
-          <div className="relative w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center overflow-hidden">
-            {getActivityImage(activity) ? (
-              <Image
-                src={getActivityImage(activity)!}
-                alt={activity.name}
-                fill
-                className="object-cover"
-                unoptimized
-              />
-            ) : (
-              <span className="text-zinc-400 text-lg">🎮</span>
+          <div className="relative flex-shrink-0">
+            <div className="relative w-16 h-16 rounded-xl bg-zinc-800 flex items-center justify-center overflow-hidden border border-zinc-700/50 shadow-md">
+              {getActivityImage(activity) ? (
+                <Image
+                  src={getActivityImage(activity)!}
+                  alt={activity.name}
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              ) : (
+                <span className="text-zinc-400 text-3xl">🎮</span>
+              )}
+            </div>
+            {getActivitySmallImage(activity) && (
+              <div className="absolute -bottom-1.5 -right-1.5 w-7 h-7 rounded-full bg-[#111113] p-[3px]">
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-zinc-800">
+                  <Image
+                    src={getActivitySmallImage(activity)!}
+                    alt="Small asset"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
             )}
           </div>
           <div className="flex-1 min-w-0">

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { config, IconMap } from "@/config";
 import { BackgroundMedia } from "@/components/BackgroundMedia";
@@ -9,12 +10,46 @@ import { DiscordStatus } from "@/components/DiscordStatus";
 import { DiscordActivities } from "@/components/DiscordActivities";
 
 export default function Home() {
+  const [entered, setEntered] = useState(false);
+
+  useEffect(() => {
+    // Disable Right Click
+    const handleContextMenu = (e: MouseEvent) => e.preventDefault();
+    
+    // Disable Keyboard Shortcuts for DevTools
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "F12") e.preventDefault();
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key.toLowerCase() === "i" || e.key.toLowerCase() === "c" || e.key.toLowerCase() === "j")) e.preventDefault();
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "u") e.preventDefault();
+    };
+
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <main className="min-h-screen relative flex items-center justify-center p-4 font-sans text-zinc-100 overflow-x-hidden">
       <BackgroundMedia />
 
+      {/* Entry Overlay */}
+      {!entered && (
+        <div 
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-zinc-950/90 backdrop-blur-md cursor-pointer transition-opacity duration-700"
+          onClick={() => setEntered(true)}
+        >
+          <div className="animate-pulse text-zinc-300 font-bold tracking-[0.3em] text-sm uppercase">
+            [ Click anywhere to enter ]
+          </div>
+        </div>
+      )}
+
       {/* Main Profile Card */}
-      <div className="w-full max-w-[440px] bg-black/60 backdrop-blur-xl rounded-2xl overflow-hidden border border-zinc-800/50 shadow-2xl animate-in fade-in zoom-in duration-500">
+      <div className={`w-full max-w-[440px] bg-black/60 backdrop-blur-sm rounded-2xl overflow-hidden border border-zinc-800/50 shadow-2xl transition-all duration-1000 delay-100 ${entered ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-90 pointer-events-none'}`}>
         
         {/* Profile Header (Avatar + Info) */}
         <div className="px-6 pt-8 pb-6 relative">
@@ -39,15 +74,17 @@ export default function Home() {
             {/* User Info Section */}
             <div className="flex-1 min-w-0">
               <h1 className="text-2xl font-bold text-white tracking-tight">{config.name}</h1>
-              {/* Status/Activity can go here if needed, or keep them below */}
-              <div className="mt-1 flex items-center gap-2">
-                <DiscordActivities />
-              </div>
+              {config.discordName && (
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="text-[15px] font-medium text-zinc-300">{config.discordName}</span>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Spotify Widget & Other Content */}
           <div className="space-y-4">
+            <DiscordActivities />
             <SpotifyWidget />
           </div>
 
@@ -64,7 +101,11 @@ export default function Home() {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-center gap-3 p-3 bg-zinc-900/60 rounded-xl border border-zinc-800/50 hover:bg-zinc-800 hover:border-zinc-700 transition-all duration-200"
+                      className={`group flex items-center gap-3 p-3 bg-zinc-900/60 rounded-xl border border-zinc-800/50 hover:bg-zinc-800 hover:border-zinc-700 transition-all duration-200 ${
+                        config.links.length % 2 !== 0 && index === config.links.length - 1
+                          ? "sm:col-span-2 sm:w-[calc(50%-0.375rem)] sm:justify-self-center w-full"
+                          : ""
+                      }`}
                     >
                       <div className="w-10 h-10 rounded-lg bg-zinc-800 group-hover:bg-zinc-700 flex items-center justify-center transition-colors">
                         {Icon && <Icon className="w-5 h-5 text-zinc-300 group-hover:text-white" />}
