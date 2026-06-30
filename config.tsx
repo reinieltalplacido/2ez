@@ -33,6 +33,12 @@ const Tiktok = (props: any) => (
   </svg>
 );
 
+const Kick = (props: any) => (
+  <svg {...props} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M4 2v20h5.33v-5.33h2.67v5.33H20v-6.67h-2.67v-2.66h2.67V2h-8v5.33H9.33V2H4z" />
+  </svg>
+);
+
 export type Status = "online" | "idle" | "dnd" | "offline";
 
 export interface LinkConfig {
@@ -52,14 +58,15 @@ export const config = {
   
  
   background: {
-    image: "/DT.png",
+    image: "/acess.png",
   },
   
  
   links: [
     { title: "TikTok", subtitle: "TikTok Channel", url: "https://www.tiktok.com/@2ezdota", iconName: "Tiktok" },
-    { title: "YouTube", subtitle: "YouTube Channel", url: "https://www.youtube.com/@Oreoo-f5g", iconName: "Youtube" },
+    { title: "YouTube", subtitle: "YouTube Channel", url: "https://www.youtube.com/@OreoEvile", iconName: "Youtube" },
     { title: "Facebook", subtitle: "Facebook Page", url: "https://www.facebook.com/profile.php?id=61563096756693", iconName: "Facebook" },
+    { title: "Kick", subtitle: "Kick Channel", url: "https://kick.com/oreoodt", iconName: "Kick" },
   ] as LinkConfig[]
 };
 
@@ -72,5 +79,6 @@ export const IconMap: Record<string, any> = {
   Facebook,
   Github,
   Code,
-  Briefcase
+  Briefcase,
+  Kick
 };
