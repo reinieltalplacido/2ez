@@ -51,7 +51,7 @@ export interface LinkConfig {
 export const config = {
   
   discordId: "862235535749808138", 
-  discordName: "oreodt.",
+  discordName: "2ezoreo",
   name: "2ez",
   avatar: "/steam.jpg", 
   status: "dnd" as Status, 
@@ -66,11 +66,11 @@ export const config = {
     { title: "TikTok", subtitle: "TikTok Channel", url: "https://www.tiktok.com/@2ezdota", iconName: "Tiktok" },
     { title: "YouTube", subtitle: "YouTube Channel", url: "https://www.youtube.com/@OreoEvile", iconName: "Youtube" },
     { title: "Facebook", subtitle: "Facebook Page", url: "https://www.facebook.com/profile.php?id=61563096756693", iconName: "Facebook" },
-    { title: "Kick", subtitle: "Kick Channel", url: "https://kick.com/oreoodt", iconName: "Kick" },
+    { title: "Kick", subtitle: "Kick Channel", url: "https://kick.com/oreoyoo", iconName: "Kick" },
   ] as LinkConfig[]
 };
 
-// Helper map to convert string icon names to actual Lucide components
+
 export const IconMap: Record<string, any> = {
   Radio,
   Music,
