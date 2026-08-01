@@ -7,9 +7,9 @@ export async function GET(request: Request) {
   const query = searchParams.get("query") || "Uncle Dags ORIGIMAL";
 
   return NextResponse.json({
-    src: "/Uncle Dags - ORIGIMAL (feat. RJD).mp3",
-    title: "ORIGIMAL (feat. RJD)",
-    artist: "Uncle Dags",
+    src: "/Drake - What Did I Miss_ (Lyrics).mp3",
+    title: "What Did I Miss?",
+    artist: "Drake",
     volume: 0.15,
     autoplay: true,
   });
