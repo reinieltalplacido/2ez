@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
 import { config } from "@/config";
 import { Volume2, VolumeX, Volume1, Music } from "lucide-react";
 
@@ -130,15 +129,17 @@ export function BackgroundMedia() {
 
   return (
     <>
-      {/* Background Image */}
-      <div className="fixed inset-0 z-[-1] bg-zinc-950">
-        <Image
-          src={config.background.image}
-          alt="Background"
-          fill
-          priority
-          className="object-cover brightness-90"
+      {/* Background Video */}
+      <div className="fixed inset-0 z-[-1] bg-zinc-950 overflow-hidden">
+        <video
+          src="/zoro.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover brightness-[0.6]"
         />
+        <div className="absolute inset-0 bg-black/25" />
       </div>
 
       {/* Hidden Audio */}
