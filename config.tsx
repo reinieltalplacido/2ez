@@ -58,7 +58,7 @@ export const config = {
   
  
   background: {
-    image: "/acess.png",
+    image: "/image.png",
   },
   
  
