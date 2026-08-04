@@ -8,7 +8,8 @@ import { SpotifyWidget } from "@/components/SpotifyWidget";
 import { ViewCounter } from "@/components/ViewCounter";
 import { DiscordStatus } from "@/components/DiscordStatus";
 import { DiscordActivities } from "@/components/DiscordActivities";
-import { useDiscordUser, getAvatarUrl } from "@/components/useDiscordUser";
+import { ProfileEffect } from "@/components/ProfileEffect";
+import { useDiscordUser, getAvatarUrl, getAvatarDecorationUrl } from "@/components/useDiscordUser";
 
 export default function Home() {
   const [entered, setEntered] = useState(false);
@@ -17,6 +18,7 @@ export default function Home() {
   const name = discordUser?.display_name || discordUser?.global_name || config.name;
   const discordName = discordUser?.username || config.discordName;
   const avatar = discordUser ? getAvatarUrl(discordUser) : config.avatar;
+  const avatarDecoration = discordUser ? getAvatarDecorationUrl(discordUser) : null;
 
   useEffect(() => {
     // Disable Right Click
@@ -63,6 +65,19 @@ export default function Home() {
           <div className="flex items-center gap-5 mb-6">
             {/* Avatar Section */}
             <div className="relative flex-shrink-0">
+              <ProfileEffect />
+              {avatarDecoration && (
+                <div className="absolute -inset-3 flex items-center justify-center pointer-events-none">
+                  <Image
+                    src={avatarDecoration}
+                    alt="Avatar decoration"
+                    width={104}
+                    height={104}
+                    className="w-full h-full object-contain"
+                    unoptimized
+                  />
+                </div>
+              )}
               <div className="w-20 h-20 rounded-full border-[4px] border-[#0F0F10] overflow-hidden bg-zinc-800 shadow-xl">
                 <Image
                   src={avatar}

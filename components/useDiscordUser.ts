@@ -10,6 +10,10 @@ export interface DiscordUser {
   display_name?: string;
   avatar?: string;
   discriminator?: string;
+  avatar_decoration_data?: {
+    asset: string;
+    sku_id?: string;
+  } | null;
 }
 
 export function getAvatarUrl(user: DiscordUser, size = 256) {
@@ -19,6 +23,12 @@ export function getAvatarUrl(user: DiscordUser, size = 256) {
   }
   const ext = user.avatar.startsWith("a_") ? "gif" : "png";
   return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=${size}`;
+}
+
+export function getAvatarDecorationUrl(user: DiscordUser, size = 240) {
+  const asset = user.avatar_decoration_data?.asset;
+  if (!asset) return null;
+  return `https://cdn.discordapp.com/avatar-decoration-presets/${asset}.png?size=${size}&passthrough=true`;
 }
 
 interface LanyardData {
