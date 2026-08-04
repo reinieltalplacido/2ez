@@ -8,9 +8,15 @@ import { SpotifyWidget } from "@/components/SpotifyWidget";
 import { ViewCounter } from "@/components/ViewCounter";
 import { DiscordStatus } from "@/components/DiscordStatus";
 import { DiscordActivities } from "@/components/DiscordActivities";
+import { useDiscordUser, getAvatarUrl } from "@/components/useDiscordUser";
 
 export default function Home() {
   const [entered, setEntered] = useState(false);
+  const discordUser = useDiscordUser();
+
+  const name = discordUser?.display_name || discordUser?.global_name || config.name;
+  const discordName = discordUser?.username || config.discordName;
+  const avatar = discordUser ? getAvatarUrl(discordUser) : config.avatar;
 
   useEffect(() => {
     // Disable Right Click
@@ -59,8 +65,8 @@ export default function Home() {
             <div className="relative flex-shrink-0">
               <div className="w-20 h-20 rounded-full border-[4px] border-[#0F0F10] overflow-hidden bg-zinc-800 shadow-xl">
                 <Image
-                  src={config.avatar}
-                  alt={config.name}
+                  src={avatar}
+                  alt={name}
                   width={80}
                   height={80}
                   className="w-full h-full object-cover"
@@ -73,10 +79,10 @@ export default function Home() {
 
             {/* User Info Section */}
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl font-bold text-white tracking-tight">{config.name}</h1>
-              {config.discordName && (
+              <h1 className="text-2xl font-bold text-white tracking-tight">{name}</h1>
+              {discordName && (
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="text-[15px] font-medium text-zinc-300">{config.discordName}</span>
+                  <span className="text-[15px] font-medium text-zinc-300">{discordName}</span>
                 </div>
               )}
             </div>

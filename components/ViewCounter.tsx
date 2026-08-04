@@ -4,12 +4,9 @@ import { useEffect, useState } from "react";
 import { Eye } from "lucide-react";
 
 export function ViewCounter() {
-  const [count, setCount] = useState(0);
-  const [mounted, setMounted] = useState(false);
+  const [count, setCount] = useState<number | null>(null);
 
   useEffect(() => {
-    setMounted(true);
-    
     const fetchAndIncrement = async () => {
       try {
         // Check if already counted this session
@@ -41,7 +38,7 @@ export function ViewCounter() {
     fetchAndIncrement();
   }, []);
 
-  if (!mounted) return null;
+  if (count === null) return null;
 
   return (
     <div className="flex items-center justify-center gap-2 mt-8 text-zinc-500 text-xs">

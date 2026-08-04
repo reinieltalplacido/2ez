@@ -84,8 +84,8 @@ export function SpotifyWidget() {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const currentTime = Date.now() - timestamps.start;
   const totalDuration = timestamps.end - timestamps.start;
+  const currentTime = (progress / 100) * totalDuration;
 
   return (
     <div>
