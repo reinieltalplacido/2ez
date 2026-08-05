@@ -128,8 +128,22 @@ export default function Home() {
                           : ""
                       }`}
                     >
-                      <div className="w-10 h-10 rounded-lg bg-zinc-800 group-hover:bg-zinc-700 flex items-center justify-center transition-colors">
-                        {Icon && <Icon className="w-5 h-5 text-zinc-300 group-hover:text-white" />}
+                      <div 
+                        className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 border"
+                        style={{
+                          backgroundColor: `${link.color}15`,
+                          borderColor: `${link.color}30`,
+                        }}
+                      >
+                        {Icon && (
+                          <Icon 
+                            className="w-5 h-5 transition-all duration-300 group-hover:scale-110" 
+                            style={{ 
+                              color: link.color,
+                              filter: `drop-shadow(0 0 5px ${link.color}60)`
+                            }} 
+                          />
+                        )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-zinc-200 group-hover:text-white truncate">

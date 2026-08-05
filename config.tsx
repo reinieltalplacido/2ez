@@ -15,8 +15,33 @@ const Youtube = (props: SVGProps<SVGSVGElement>) => (
 );
 
 const Tiktok = (props: SVGProps<SVGSVGElement>) => (
-  <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  <svg {...props} viewBox="0 0 24 24" fill="none">
+    {/* Red/Magenta Layer */}
+    <path
+      d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"
+      stroke="#FE2C55"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      transform="translate(0.8, 0.8)"
+    />
+    {/* Cyan Layer */}
+    <path
+      d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"
+      stroke="#25F4EE"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      transform="translate(-0.8, -0.8)"
+    />
+    {/* White/Main Layer */}
+    <path
+      d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"
+      stroke="#FFFFFF"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
@@ -33,6 +58,7 @@ export interface LinkConfig {
   subtitle: string;
   url: string;
   iconName: string;
+  color: string;
 }
 
 export const config = {
@@ -50,10 +76,10 @@ export const config = {
   
  
   links: [
-    { title: "TikTok", subtitle: "TikTok Channel", url: "https://www.tiktok.com/@2ezdota", iconName: "Tiktok" },
-    { title: "YouTube", subtitle: "YouTube Channel", url: "https://www.youtube.com/@OreoEvile", iconName: "Youtube" },
-    { title: "Facebook", subtitle: "Facebook Page", url: "https://www.facebook.com/profile.php?id=61563096756693", iconName: "Facebook" },
-    { title: "Kick", subtitle: "Kick Channel", url: "https://kick.com/oreoyoo", iconName: "Kick" },
+    { title: "TikTok", subtitle: "TikTok Channel", url: "https://www.tiktok.com/@2ezdota", iconName: "Tiktok", color: "#FE2C55" },
+    { title: "YouTube", subtitle: "YouTube Channel", url: "https://www.youtube.com/@OreoEvile", iconName: "Youtube", color: "#FF0000" },
+    { title: "Facebook", subtitle: "Facebook Page", url: "https://www.facebook.com/profile.php?id=61563096756693", iconName: "Facebook", color: "#1877F2" },
+    { title: "Kick", subtitle: "Kick Channel", url: "https://kick.com/oreoyoo", iconName: "Kick", color: "#53FC18" },
   ] as LinkConfig[]
 };
 
